@@ -1,0 +1,65 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+namespace ConsoleApp5
+{
+    class Program
+    {
+        char[] characters = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+                                                'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
+                                                'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' ', '1', '2', '3', '4', '5', '6', '7',
+                                                '8', '9', '0' };
+
+        // Шифрование строки
+        public string Shifr(string input, string keyword)
+        {
+            var N = characters.Length;
+            input = input.ToUpper();
+            keyword = keyword.ToUpper();
+
+            string res = "";
+
+            int key_ind = 0;
+
+            foreach (char symbol in input)
+            {
+                int c = (Array.IndexOf(characters, symbol) +
+                    Array.IndexOf(characters, keyword[key_ind])) % N;
+
+                res += characters[c];
+
+                key_ind++;
+
+                if ((key_ind + 1) == keyword.Length)
+                    key_ind = 0;
+            }
+
+            return res;
+        }
+       
+        public string Generate_KeyWord(int length, int startSeed)
+        {
+            Random rand = new Random(startSeed);
+
+            string result = "";
+
+            for (int i = 0; i < length; i++)
+                result += characters[rand.Next(0, characters.Length)];
+
+            return result; 
+        }
+        public static void Main(string[] args)
+        {
+            Program a=new Program();
+            string example = new string("Interesting reaction");
+            Console.WriteLine(example);
+            string r = new string(a.Generate_KeyWord(10, 100));
+            Console.WriteLine( a.Shifr(example, r));
+            
+
+            
+        }
+    }
+}
